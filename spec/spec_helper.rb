@@ -1,6 +1,6 @@
 load_schema = lambda {
   load "#{Rails.root.to_s}/db/schema.rb" # use db agnostic schema by default
-  load "#{Rails.root.to_s}/db/seeds.rb"
+  # load "#{Rails.root.to_s}/db/seeds.rb"
 }
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'

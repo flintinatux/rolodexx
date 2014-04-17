@@ -12,6 +12,7 @@
     "backbone": "~1",
     "backbone.stickit": "~0",
     "backbone-validation": "~0",
+    "backbone-nested-attributes": "~0",
     "bootstrap": "~3",
     "font-awesome": "~4",
     "jquery": "~2",

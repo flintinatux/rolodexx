@@ -30,15 +30,15 @@ class ContactsController < ApplicationController
     end
 
     def as_json(model)
-      model.as_json only: contact_attributes, methods: [:age, :errors], include: { address: { only: address_attributes } }
+      model.as_json only: contact_attributes, methods: [:age, :errors, :gravatar_hash], include: { address: { only: address_attributes } }
     end
 
     def contact
-      @contact ||= Contact.find params[:id]
+      @contact ||= Contact.includes(:address).find(params[:id])
     end
 
     def contacts
-      @contacts ||= Contact.all
+      @contacts ||= Contact.includes(:address).to_a
     end
 
     def contact_attributes

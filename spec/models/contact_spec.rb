@@ -56,11 +56,26 @@ describe Contact do
     it { should_not be_valid }
   end
 
+  context 'before validation' do
+    before { subject.email = ' theStamper @hotMail.com ' }
+
+    it "trims and downcases the email" do
+      subject.save
+      subject.email.should eq 'thestamper@hotmail.com'
+    end
+  end
+
   describe '#age' do
     before { Date.stub today: Date.parse('5/1/2014') }
 
     it "calculates the age based on birthday" do
       expect(subject.age).to eq 50
+    end
+  end
+
+  describe '#gravatar_hash' do
+    it "creates an MD5 digest of the email" do
+      subject.gravatar_hash.should eq 'a8d1d836f9836a376e2b2a92707646a5'
     end
   end
 end

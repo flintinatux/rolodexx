@@ -1,0 +1,43 @@
+#contacts {
+  background: @navbar-default-bg;
+  border-right: 1px solid @navbar-default-border;
+  height: 100%;
+  overflow: auto;
+  padding: 0;
+
+  #new_contact_wrapper {
+    background: white;
+    border-bottom: 1px solid @navbar-default-border;
+    padding: 20px 10%;
+  }
+
+  .card {
+    border-bottom: 1px solid @navbar-default-border;
+    color: @navbar-default-link-color;
+    padding: 15px 10%;
+
+    p {
+      margin: 0;
+    }
+
+    #arrow {
+      float: right;
+      padding-top: 6px;
+      visibility: hidden;
+    }
+
+    #avatar {
+      margin-right: 7px;
+    }
+
+    &:hover, &.active {
+      background: @navbar-default-link-active-bg;
+      color: @navbar-default-link-hover-color;
+      cursor: pointer;
+
+      #arrow {
+        visibility: visible;
+      }
+    }
+  }
+}

@@ -14,7 +14,10 @@
 
 class Contact < ActiveRecord::Base
   include Uuidentified
-  has_one :address
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address
+
+  before_validation :process_email
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -31,4 +34,17 @@ class Contact < ActiveRecord::Base
   def age
     ((Date.today - birthday).to_f / 365.25).to_i if birthday.present?
   end
+
+  def gravatar_hash
+    Digest::MD5.new.hexdigest email
+  end
+
+  private
+
+    def process_email
+      if email
+        email.gsub! /\s/, ''
+        email.downcase!
+      end
+    end
 end
