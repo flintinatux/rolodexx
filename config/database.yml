@@ -1,6 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: rolodexx_development
   pool: 5
   username: rolodexx

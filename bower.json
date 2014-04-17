@@ -1,0 +1,50 @@
+{
+  "name": "rolodexx",
+  "repo": "flintinatux/rolodexx",
+  "version": "0.0.1",
+  "main": "public/javascripts/app.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "backbone": "~1",
+    "backbone.stickit": "~0",
+    "backbone-validation": "~0",
+    "bootstrap": "~3",
+    "font-awesome": "~4",
+    "jquery": "~2",
+    "underscore": "~1",
+    "uri.js": "~1"
+  },
+  "overrides": {
+    "backbone": {
+      "main": "backbone.js",
+      "dependencies": {
+          "underscore": "*",
+          "jquery": "*"
+      }
+    },
+    "backbone.stickit": {
+      "main": "backbone.stickit.js"
+    },
+    "backbone-validation": {
+      "main": "./dist/backbone-validation.js"
+    },
+    "bootstrap": {
+      "main": [
+        "./dist/js/bootstrap.js"
+      ]
+    },
+    "font-awesome": {
+      "main": ["fonts"]
+    },
+    "jquery": {
+      "main": "dist/jquery.js"
+    },
+    "uri.js": {
+      "main": "src/URI.js"
+    }
+  }
+}

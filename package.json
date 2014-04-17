@@ -1,0 +1,24 @@
+{
+  "name": "rolodexx",
+  "description": "Description",
+  "author": "Scott McCormack",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "start": "brunch watch server",
+    "test": "brunch test"
+  },
+  "dependencies": {
+    "coffee-script-brunch": "^1.8.0",
+    "jade-brunch": "^1.8.1",
+    "uglify-js-brunch": "^1.7.7",
+    "clean-css-brunch": "^1.7.1",
+    "digest-brunch": "^1.0.6",
+    "less-brunch": "^1.7.2",
+    "javascript-brunch": "^1.7.1",
+    "css-brunch": "^1.7.0"
+  }
+}

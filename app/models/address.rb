@@ -16,5 +16,5 @@ class Address < ActiveRecord::Base
   include Uuidentified
   belongs_to :contact
 
-  validates :state, format: { with: /\A[A-Z]{2}\Z/, message: "Must be capitalized two-letter abbreviation" }
+  validates :state, allow_blank: true, format: { with: /\A[A-Z]{2}\Z/, message: "Must be capitalized two-letter abbreviation" }
 end
