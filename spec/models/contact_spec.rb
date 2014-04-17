@@ -31,6 +31,7 @@ describe Contact do
   it { should respond_to :phone }
   it { should respond_to :email }
 
+  it { should respond_to :address }
   it { should respond_to :age }
 
   it { should be_valid }

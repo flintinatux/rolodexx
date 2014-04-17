@@ -14,6 +14,7 @@
 
 class Contact < ActiveRecord::Base
   include Uuidentified
+  has_one :address
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
