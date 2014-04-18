@@ -17,3 +17,11 @@
 
 /node_modules
 /bower_components
+
+/public/index.html
+/public/javascripts/app.js
+/public/javascripts/app.js.map
+/public/javascripts/vendor.js
+/public/javascripts/vendor.js.map
+/public/javascripts/app.css
+/public/javascripts/app.css.map
