@@ -34,7 +34,7 @@ class ContactsController < ApplicationController
     end
 
     def contact
-      @contact ||= Contact.includes(:address).find(params[:id])
+      @contact ||= Contact.find params[:id]
     end
 
     def contacts

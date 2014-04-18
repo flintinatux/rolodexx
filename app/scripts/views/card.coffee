@@ -5,6 +5,10 @@ class Card extends CompositeView
   template: require 'templates/card'
   className: 'card'
 
+  initialize: (options) ->
+    super options
+    @listenTo @model, 'remove', @remove
+
   bindings:
     ':el':
       attributes: [
@@ -29,6 +33,6 @@ class Card extends CompositeView
     this
 
   _showContact: ->
-    router.navigate "#/contacts/#{@model.id}", trigger: true
+    router.navigate "##{@model.url()}", trigger: true
 
 module.exports = Card

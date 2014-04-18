@@ -1,3 +1,3 @@
-class Address extends Backbone.NestedAttributesModel
+class Address extends Backbone.UndoableModel
 
 module.exports = Address

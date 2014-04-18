@@ -1,5 +1,6 @@
 Contact = require 'models/contact'
 ContactView = require 'views/contact'
+EditView = require 'views/edit'
 SwappingRouter = require 'lib/swapping_router'
 contacts = require 'collections/contacts'
 
@@ -19,6 +20,7 @@ class Router extends SwappingRouter
     'contacts/:id/edit': 'edit'
 
   edit: (id) ->
+    @_edit contacts.get(id)
 
   first: ->
     @_show contacts.first()
@@ -27,12 +29,17 @@ class Router extends SwappingRouter
     @navigate '#/contacts', trigger: true, params: @params
 
   new_contact: ->
+    @_edit new Contact()
 
   show: (id) ->
     @_show contacts.get(id)
 
-  _show: (model) ->
-    model.choose()
-    @swap new ContactView model: model, params: @params
+  _edit: (contact) ->
+    contact.choose()
+    @swap new EditView model: contact, params: @params
+
+  _show: (contact) ->
+    contact.choose()
+    @swap new ContactView model: contact, params: @params
 
 module.exports = new Router()

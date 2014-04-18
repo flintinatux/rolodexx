@@ -24,7 +24,7 @@ class Contact < ActiveRecord::Base
   default_scope { order 'name asc' }
 
   validates :name,  presence: true
-  validates :sex,   inclusion: { in: %w(male female) }, allow_blank: true
+  validates :sex,   inclusion: { in: %w(male female) }, allow_nil: true
   validates :email, format: { with: EMAIL_REGEX }, allow_blank: true
 
   validates_each :birthday, allow_nil: true do |record, attribute, value|
@@ -36,7 +36,11 @@ class Contact < ActiveRecord::Base
   end
 
   def gravatar_hash
-    Digest::MD5.new.hexdigest email
+    Digest::MD5.new.hexdigest email if email.present?
+  end
+
+  def self.attribute_names
+    super + [:address_attributes]
   end
 
   private

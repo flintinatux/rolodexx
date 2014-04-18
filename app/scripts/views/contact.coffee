@@ -6,7 +6,9 @@ class ContactView extends CompositeView
 
   addressBindings:
     '#street':    'street'
-    '#city':      'city'
+    '#city':
+      observe: 'city'
+      onGet: (val) -> if val then "#{val}, "
     '#state':     'state'
     '#postcode':  'postcode'
 

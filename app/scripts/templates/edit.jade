@@ -1,0 +1,47 @@
+form
+  .page-header
+    .form-group.name.has-feedback
+      input#name.input-lg.form-control(type='text' placeholder='Contact name')
+      span.form-control-feedback
+
+  .row
+    .col-xs-4
+      img#avatar
+    #details.col-xs-8
+      .row
+        .form-group.has-feedback.col-xs-4
+          p.contact-label Sex
+          select#sex.form-control
+        .form-group.has-feedback.col-xs-4
+          p.contact-label Age
+          p ???
+        .form-group.has-feedback.col-xs-4
+          p.contact-label Birthday
+          input#birthday.form-control(type='date' placeholder='YYYY-MM-DD')
+      .row
+        .col-xs-12
+          p.contact-label Address
+          .row
+            .form-group.has-feedback.col-xs-6
+              input#street.form-control(type='text' placeholder='Street address')
+          .row
+            .form-group.has-feedback.col-xs-4
+              input#city.form-control(type='text' placeholder='City')
+            .form-group.has-feedback.col-xs-2
+              select#state.form-control
+            .form-group.has-feedback.col-xs-3
+              input#postcode.form-control(type='text' placeholder='Zip code')
+      .row
+        .form-group.has-feedback.col-xs-4
+          p.contact-label Phone
+          input#phone.form-control(type='text' placeholder='ex: 888-867-5309')
+        .form-group.email.has-feedback.col-xs-8
+          p.contact-label Email
+          input#email.form-control(type='text' placeholder='ex: yourname@email.com')
+          span.form-control-feedback
+
+      .row
+        .form-group.col-xs-12
+          button#delete.btn.btn-danger(type='button') Delete contact
+          button#submit.btn.btn-primary(type='submit') Save contact
+          button#cancel.btn.btn-default(type='button') Cancel

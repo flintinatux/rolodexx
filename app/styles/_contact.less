@@ -22,7 +22,7 @@
     }
   }
 
-  .row {
+  #details > .row {
     margin-bottom: 30px;
   }
 
@@ -39,6 +39,35 @@
       font-size: 16px;
       font-weight: bold;
       text-transform: uppercase;
+    }
+  }
+
+  .form-group {
+    &.email {
+      &.has-feedback .form-control-feedback {
+        padding-right: 27px;
+        top: 32px;
+      }
+    }
+
+    &.name {
+      margin-bottom: 10px;
+      width: 50%;
+
+      &.has-feedback .form-control-feedback {
+        padding-right: 16px;
+        top: 6px;
+      }
+    }
+  }
+
+  button {
+    margin-right: 15px;
+    width: 128px;
+
+    &#delete {
+      float: right;
+      margin-right: 0;
     }
   }
 }
