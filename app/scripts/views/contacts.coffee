@@ -9,7 +9,6 @@ class ContactsView extends CompositeView
     super options
     @collection = require 'collections/contacts'
     @listenTo @collection, 'sort', @_renderCollection
-    @collection.fetch()
 
   events:
     'click #new': -> router.navigate '#/contacts/new', trigger: true

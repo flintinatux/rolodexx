@@ -11,4 +11,8 @@ class Contact extends Backbone.NestedAttributesModel
     }
   ]
 
+  choose: ->
+    @collection.each (contact) -> contact.set active: false
+    @set active: true
+
 module.exports = Contact

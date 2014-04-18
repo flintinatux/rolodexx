@@ -320,6 +320,17 @@ Contact = (function(_super) {
     }
   ];
 
+  Contact.prototype.choose = function() {
+    this.collection.each(function(contact) {
+      return contact.set({
+        active: false
+      });
+    });
+    return this.set({
+      active: true
+    });
+  };
+
   return Contact;
 
 })(Backbone.NestedAttributesModel);
@@ -349,7 +360,17 @@ Router = (function(_super) {
 
   Router.prototype.execute = function(callback, args) {
     this.$el = $('#contact_wrapper');
-    return Router.__super__.execute.call(this, callback, args);
+    if (contacts.isEmpty()) {
+      return contacts.fetch({
+        success: (function(_this) {
+          return function() {
+            return Router.__super__.execute.call(_this, callback, args);
+          };
+        })(this)
+      });
+    } else {
+      return Router.__super__.execute.call(this, callback, args);
+    }
   };
 
   Router.prototype.routes = {
@@ -362,7 +383,9 @@ Router = (function(_super) {
 
   Router.prototype.edit = function(id) {};
 
-  Router.prototype.first = function() {};
+  Router.prototype.first = function() {
+    return this._show(contacts.first());
+  };
 
   Router.prototype.home = function() {
     return this.navigate('#/contacts', {
@@ -374,21 +397,15 @@ Router = (function(_super) {
   Router.prototype.new_contact = function() {};
 
   Router.prototype.show = function(id) {
-    return contacts.fetch({
-      success: (function(_this) {
-        return function() {
-          var model;
-          model = contacts.get(id);
-          model.set({
-            active: true
-          });
-          return _this.swap(new ContactView({
-            model: model,
-            params: _this.params
-          }));
-        };
-      })(this)
-    });
+    return this._show(contacts.get(id));
+  };
+
+  Router.prototype._show = function(model) {
+    model.choose();
+    return this.swap(new ContactView({
+      model: model,
+      params: this.params
+    }));
   };
 
   return Router;
@@ -429,7 +446,7 @@ var buf = [];
 var jade_mixins = {};
 var jade_interp;
 
-buf.push("<span id=\"arrow\"><i class=\"fa fa-chevron-right\"></i></span><img id=\"avatar\"/><span id=\"name\"></span>");;return buf.join("");
+buf.push("<span id=\"arrow\"><i class=\"fa fa-chevron-right\"></i></span><img id=\"avatar\" width=\"32\" height=\"32\"/><span id=\"name\"></span>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -448,7 +465,7 @@ var buf = [];
 var jade_mixins = {};
 var jade_interp;
 
-buf.push("<div></div>");;return buf.join("");
+buf.push("<div class=\"page-header\"><h1><span id=\"name\"></span><span id=\"edit\" data-toggle=\"tooltip\" title=\"Edit contact\"><i class=\"fa fa-pencil\"></i></span></h1></div><div class=\"row\"><div class=\"col-xs-4\"><img id=\"avatar\" width=\"256\" height=\"256\"/></div><div class=\"col-xs-8\"><div class=\"row\"><div class=\"col-xs-4\"><p class=\"contact-label\">Sex</p><p id=\"sex\"></p></div><div class=\"col-xs-4\"><p class=\"contact-label\">Age</p><p id=\"age\"></p></div><div class=\"col-xs-4\"><p class=\"contact-label\">Birthday</p><p id=\"birthday\"></p></div></div><div class=\"row\"><div class=\"col-xs-12\"><p class=\"contact-label\">Address</p><p><span id=\"street\"></span><br/><span id=\"city\"></span>,&nbsp;<span id=\"state\"></span>&nbsp;&nbsp;<span id=\"postcode\"></span></p></div></div><div class=\"row\"><div class=\"col-xs-4\"><p class=\"contact-label\">Phone</p><p id=\"phone\"></p></div><div class=\"col-xs-8\"><p class=\"contact-label\">Email</p><p id=\"email\"></p></div></div></div></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -486,7 +503,7 @@ var buf = [];
 var jade_mixins = {};
 var jade_interp;
 
-buf.push("<nav class=\"navbar navbar-default navbar-fixed-top\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a href=\"/\" class=\"navbar-brand\"><i class=\"fa fa-sort-alpha-asc\"></i> The Rolodexx</a></div><p class=\"navbar-text navbar-right\">The way your grandma used to remember things.</p></div></nav><div id=\"content\" class=\"container-fluid\"><div class=\"row\"><div id=\"contacts\" class=\"col-xs-3\"></div><div id=\"contact_wrapper\" class=\"col-xs-9\"></div></div></div>");;return buf.join("");
+buf.push("<nav class=\"navbar navbar-default navbar-static-top\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a href=\"/\" class=\"navbar-brand\"><i class=\"fa fa-sort-alpha-asc\"></i> The Rolodexx</a></div><p class=\"navbar-text navbar-right\">The way your grandma used to remember things.</p></div></nav><div id=\"content\" class=\"container-fluid\"><div class=\"row\"><div id=\"contacts\" class=\"col-xs-3\"></div><div id=\"contact_wrapper\" class=\"col-xs-9\"></div></div></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -560,14 +577,6 @@ Card = (function(_super) {
   };
 
   Card.prototype._showContact = function() {
-    this.model.collection.each(function(contact) {
-      return contact.set({
-        active: false
-      });
-    });
-    this.model.set({
-      active: true
-    });
     return router.navigate("#/contacts/" + this.model.id, {
       trigger: true
     });
@@ -598,9 +607,68 @@ ContactView = (function(_super) {
 
   ContactView.prototype.id = 'contact';
 
+  ContactView.prototype.addressBindings = {
+    '#street': 'street',
+    '#city': 'city',
+    '#state': 'state',
+    '#postcode': 'postcode'
+  };
+
+  ContactView.prototype.bindings = {
+    '#age': 'age',
+    '#avatar': {
+      attributes: [
+        {
+          name: 'src',
+          observe: 'gravatar_hash',
+          onGet: function(val) {
+            return "http://www.gravatar.com/avatar/" + val + "?d=mm&s=256";
+          }
+        }
+      ]
+    },
+    '#birthday': {
+      observe: 'birthday',
+      onGet: function(val) {
+        if (val) {
+          return moment(val).format('M / D / YYYY');
+        }
+      }
+    },
+    '#email': 'email',
+    '#name': 'name',
+    '#phone': 'phone',
+    '#sex': 'sex'
+  };
+
+  ContactView.prototype.events = {
+    'click #edit': '_editContact'
+  };
+
+  ContactView.prototype.tooltipOptions = {
+    placement: 'right',
+    delay: {
+      show: 500,
+      hide: 100
+    }
+  };
+
   ContactView.prototype.render = function() {
     this.$el.html(this.template());
+    this.stickit();
+    this.stickit(this.model.get('address'), this.addressBindings);
+    this._enableTooltips();
     return this;
+  };
+
+  ContactView.prototype._editContact = function() {
+    return require('router').navigate("#/contacts/" + this.model.id + "/edit", {
+      trigger: true
+    });
+  };
+
+  ContactView.prototype._enableTooltips = function() {
+    return this.$('[data-toggle=tooltip]').tooltip(this.tooltipOptions);
   };
 
   return ContactView;
@@ -633,8 +701,7 @@ ContactsView = (function(_super) {
   ContactsView.prototype.initialize = function(options) {
     ContactsView.__super__.initialize.call(this, options);
     this.collection = require('collections/contacts');
-    this.listenTo(this.collection, 'sort', this._renderCollection);
-    return this.collection.fetch();
+    return this.listenTo(this.collection, 'sort', this._renderCollection);
   };
 
   ContactsView.prototype.events = {

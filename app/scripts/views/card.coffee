@@ -29,8 +29,6 @@ class Card extends CompositeView
     this
 
   _showContact: ->
-    @model.collection.each (contact) -> contact.set active: false
-    @model.set active: true
     router.navigate "#/contacts/#{@model.id}", trigger: true
 
 module.exports = Card

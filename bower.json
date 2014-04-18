@@ -16,6 +16,7 @@
     "bootstrap": "~3",
     "font-awesome": "~4",
     "jquery": "~2",
+    "moment": "~2",
     "underscore": "~1",
     "uri.js": "~1"
   },

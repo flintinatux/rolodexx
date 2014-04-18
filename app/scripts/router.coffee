@@ -6,7 +6,10 @@ contacts = require 'collections/contacts'
 class Router extends SwappingRouter
   execute: (callback, args) ->
     @$el = $('#contact_wrapper')
-    super callback, args
+    if contacts.isEmpty()
+      contacts.fetch success: => super callback, args
+    else
+      super callback, args
 
   routes:
     '': 'home'
@@ -18,6 +21,7 @@ class Router extends SwappingRouter
   edit: (id) ->
 
   first: ->
+    @_show contacts.first()
 
   home: ->
     @navigate '#/contacts', trigger: true, params: @params
@@ -25,9 +29,10 @@ class Router extends SwappingRouter
   new_contact: ->
 
   show: (id) ->
-    contacts.fetch success: =>
-      model = contacts.get id
-      model.set active: true
-      @swap new ContactView model: model, params: @params
+    @_show contacts.get(id)
+
+  _show: (model) ->
+    model.choose()
+    @swap new ContactView model: model, params: @params
 
 module.exports = new Router()

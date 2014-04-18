@@ -1,1 +1,38 @@
-div
+.page-header
+  h1
+    span#name
+    span#edit(data-toggle='tooltip' title='Edit contact')
+      i.fa.fa-pencil
+
+.row
+  .col-xs-4
+    img#avatar(width='256' height='256')
+  .col-xs-8
+    .row
+      .col-xs-4
+        p.contact-label Sex
+        p#sex
+      .col-xs-4
+        p.contact-label Age
+        p#age
+      .col-xs-4
+        p.contact-label Birthday
+        p#birthday
+    .row
+      .col-xs-12
+        p.contact-label Address
+        p
+          span#street
+          br
+          span#city
+          | ,&nbsp;
+          span#state
+          | &nbsp;&nbsp;
+          span#postcode
+    .row
+      .col-xs-4
+        p.contact-label Phone
+        p#phone
+      .col-xs-8
+        p.contact-label Email
+        p#email
