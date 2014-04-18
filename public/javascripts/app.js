@@ -328,11 +328,17 @@ module.exports = Contact;
 });
 
 ;require.register("router", function(exports, require, module) {
-var Router, SwappingRouter,
+var Contact, ContactView, Router, SwappingRouter, contacts,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+Contact = require('models/contact');
+
+ContactView = require('views/contact');
+
 SwappingRouter = require('lib/swapping_router');
+
+contacts = require('collections/contacts');
 
 Router = (function(_super) {
   __extends(Router, _super);
@@ -341,9 +347,9 @@ Router = (function(_super) {
     return Router.__super__.constructor.apply(this, arguments);
   }
 
-  Router.prototype.initialize = function() {
-    Router.__super__.initialize.call(this);
-    return this.$el = $('body');
+  Router.prototype.execute = function(callback, args) {
+    this.$el = $('#contact_wrapper');
+    return Router.__super__.execute.call(this, callback, args);
   };
 
   Router.prototype.routes = {
@@ -367,7 +373,23 @@ Router = (function(_super) {
 
   Router.prototype.new_contact = function() {};
 
-  Router.prototype.show = function(id) {};
+  Router.prototype.show = function(id) {
+    return contacts.fetch({
+      success: (function(_this) {
+        return function() {
+          var model;
+          model = contacts.get(id);
+          model.set({
+            active: true
+          });
+          return _this.swap(new ContactView({
+            model: model,
+            params: _this.params
+          }));
+        };
+      })(this)
+    });
+  };
 
   return Router;
 
@@ -420,6 +442,25 @@ if (typeof define === 'function' && define.amd) {
 }
 });
 
+;require.register("templates/contact", function(exports, require, module) {
+var __templateData = function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+
+buf.push("<div></div>");;return buf.join("");
+};
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
 ;require.register("templates/contacts", function(exports, require, module) {
 var __templateData = function template(locals) {
 var buf = [];
@@ -445,7 +486,7 @@ var buf = [];
 var jade_mixins = {};
 var jade_interp;
 
-buf.push("<nav class=\"navbar navbar-default navbar-fixed-top\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a href=\"/\" class=\"navbar-brand\"><i class=\"fa fa-sort-alpha-asc\"></i> The Rolodexx</a></div><p class=\"navbar-text navbar-right\">The way your grandma used to remember things.</p></div></nav><div id=\"content\" class=\"container-fluid\"><div class=\"row\"><div id=\"contacts\" class=\"col-xs-3\"></div><div id=\"contact\" class=\"col-xs-9\"></div></div></div>");;return buf.join("");
+buf.push("<nav class=\"navbar navbar-default navbar-fixed-top\"><div class=\"container-fluid\"><div class=\"navbar-header\"><a href=\"/\" class=\"navbar-brand\"><i class=\"fa fa-sort-alpha-asc\"></i> The Rolodexx</a></div><p class=\"navbar-text navbar-right\">The way your grandma used to remember things.</p></div></nav><div id=\"content\" class=\"container-fluid\"><div class=\"row\"><div id=\"contacts\" class=\"col-xs-3\"></div><div id=\"contact_wrapper\" class=\"col-xs-9\"></div></div></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -537,6 +578,36 @@ Card = (function(_super) {
 })(CompositeView);
 
 module.exports = Card;
+});
+
+;require.register("views/contact", function(exports, require, module) {
+var CompositeView, ContactView,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CompositeView = require('lib/composite_view');
+
+ContactView = (function(_super) {
+  __extends(ContactView, _super);
+
+  function ContactView() {
+    return ContactView.__super__.constructor.apply(this, arguments);
+  }
+
+  ContactView.prototype.template = require('templates/contact');
+
+  ContactView.prototype.id = 'contact';
+
+  ContactView.prototype.render = function() {
+    this.$el.html(this.template());
+    return this;
+  };
+
+  return ContactView;
+
+})(CompositeView);
+
+module.exports = ContactView;
 });
 
 ;require.register("views/contacts", function(exports, require, module) {

@@ -4828,6 +4828,10 @@ body {
 #content .row {
   height: 100%;
 }
+#content #contact_wrapper {
+  height: 100%;
+  padding: 0;
+}
 #contacts {
   background: #f8f8f8;
   border-right: 1px solid #e7e7e7;
