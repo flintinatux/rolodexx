@@ -4992,6 +4992,10 @@ body {
 #contact .row {
   margin-bottom: 30px;
 }
+#contact #avatar {
+  max-width: 256px;
+  width: 90%;
+}
 #contact p {
   font-size: 24px;
 }
