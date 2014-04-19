@@ -66,6 +66,7 @@ class EditView extends CompositeView
 
   _cancel: ->
     @model.undo()
+    @dirty = false
     if @model.isNew() then @_goHome() else @_show()
 
   _delete: ->
