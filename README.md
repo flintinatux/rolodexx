@@ -21,10 +21,15 @@ That should just about do it.  Then access it here: [http://localhost:3000/](htt
 
 It's a pretty simple app, but I tried to make it as performant as possible.  It uses [Rails](http://rubyonrails.org) for the backend with Sprockets completely disabled, so it only acts as a JSON API for the [Backbone](http://backbonejs.org) frontend.
 
-Rather than rely on Sprockets for compiling assets, I went with Brunch, which does a fantastic job of watching your files and concatenating them in an optionated manner.
+Rather than rely on Sprockets for compiling assets, I went with Brunch, which does a fantastic job of watching your files and compiling them in an optionated manner.
 
 ### What I'd probably add next
 
-1. A `User` model, along with some authentication.  That way your contact data aren't shared with the world.
-2. Probably an import or export machanism.
+In no particular order:
+
+1. A `User` model, along with some authentication.
+2. Probably an import or export mechanism.
 3. [Jasmine](http://jasmine.github.io/) specs for the frontend app.
+4. Paging for the `/contacts` endpoint.
+5. A search feature. The [pg_search](https://github.com/Casecommons/pg_search) gem would do the trick.
+6. Last but not least, caching, since contact lists are more frequently read than written. Would probably use the [memcacheable](https://github.com/flintinatux/memcacheable) gem, which I wrote myself.
