@@ -1,3 +1,5 @@
+- spinner = require('templates/spinner')
+
 nav.navbar.navbar-default.navbar-static-top
   .container-fluid
     .navbar-header
@@ -10,3 +12,4 @@ nav.navbar.navbar-default.navbar-static-top
   .row
     #contacts.col-xs-3
     #contact_wrapper.col-xs-9
+      != spinner()

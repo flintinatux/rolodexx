@@ -20,6 +20,7 @@ class ContactsView extends CompositeView
 
   _renderCollection: ->
     @_removeChildren()
+    @$('.spinner').remove() unless @collection.isEmpty()
     @collection.each (model) =>
       @$el.append @renderChild(new Card model: model).el
 
