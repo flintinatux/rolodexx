@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "backbone": "~1",
+    "backbone.radio": "~0",
     "backbone.stickit": "~0",
     "backbone-validation": "~0",
     "backbone-nested-attributes": "~0",
