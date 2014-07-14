@@ -23,3 +23,5 @@ Rolodexx::Application.configure do
   config.active_record.migration_error = :page_load
 
 end
+
+ENV['PUSHER_URL'] = 'http://71108915d7a6f8bbcee5:b49752e3ab46ba3f55c8@api.pusherapp.com/apps/81515'

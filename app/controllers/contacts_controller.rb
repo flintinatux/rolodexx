@@ -10,16 +10,19 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.create contact_params
+    push "#{contacts_path}:created" if contact.valid?
     render json: as_json(contact), status: valid_status(:created)
   end
 
   def update
     contact.update contact_params
+    push "#{contact_path(contact)}:updated" if contact.valid?
     render json: as_json(contact), status: valid_status
   end
 
   def destroy
     contact.destroy
+    push "#{contacts_path}:destroyed"
     render json: as_json(contact)
   end
 
@@ -47,6 +50,10 @@ class ContactsController < ApplicationController
 
     def contact_params
       params[:contact].permit :id, :name, :sex, :birthday, :phone, :email, address_attributes: [:id, :street, :city, :state, :postcode]
+    end
+
+    def push(event)
+      $pusher.trigger event, as_json(contact)
     end
 
     def valid_status(status=:ok)
