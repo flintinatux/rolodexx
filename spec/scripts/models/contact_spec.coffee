@@ -17,7 +17,7 @@ describe 'Contact', ->
     @contact = new Contact id: @id, name: @name, email: @email, address: @address
 
   it 'has the right url', ->
-    expect(@contact.url()).to.equal "/contacts/#{@id}"
+    expect(_.result @contact, 'url').to.equal "/contacts/#{@id}"
 
   it 'is valid', ->
     expect(@contact.isValid true).to.be.true
@@ -50,10 +50,17 @@ describe 'Contact', ->
     beforeEach ->
       contacts.add [{ id: 1, active: true }, { id: 2, active: false }]
       @contact = contacts.last()
-      @contact.choose()
 
-    it 'sets this contact as active', ->
-      expect(@contact.get 'active').to.be.true
+    describe 'when this contact is chosen', ->
+      beforeEach ->
+        @contact.choose @contact
 
-    it 'sets the other contacts as inactive', ->
-      expect(contacts.first().get 'active').to.be.false
+      it 'sets this contact as active', ->
+        expect(@contact.get 'active').to.be.true
+
+    describe 'when this contact not chosen', ->
+      beforeEach ->
+        @contact.choose contacts.first()
+
+      it 'sets this contact as inactive', ->
+        expect(@contact.get 'active').to.be.false

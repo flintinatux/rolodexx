@@ -19,8 +19,7 @@ class Contact extends Backbone.UndoableModel
       required: false
       pattern: 'email'
 
-  choose: ->
-    @collection?.each (contact) -> contact.set active: false
-    @set active: true
+  choose: (contact) ->
+    @set active: (contact == this)
 
 module.exports = Contact

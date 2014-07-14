@@ -3,4 +3,7 @@ class Contacts extends Backbone.Collection
   model: require 'models/contact'
   comparator: 'name'
 
+  choose: (contact) ->
+    @invoke 'choose', contact
+
 module.exports = new Contacts()
