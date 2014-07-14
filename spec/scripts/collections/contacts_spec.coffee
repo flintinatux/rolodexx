@@ -23,3 +23,23 @@ describe 'Contacts', ->
 
     it 'invokes down to the models', ->
       expect(@contacts.invoke).to.have.been.calledWith 'choose', @hanz
+
+  describe '/contacts events', ->
+    beforeEach ->
+      @channel = @contacts.channel
+
+    describe 'created', ->
+      beforeEach ->
+        @newContact = id: 3, name: 'Scott'
+        @channel.trigger 'created', @newContact
+
+      it 'adds the contact to the collection', ->
+        contact = @contacts.get @newContact.id
+        expect(contact.get 'name').to.equal @newContact.name
+
+    describe 'destroyed', ->
+      beforeEach ->
+        @channel.trigger 'destroyed', @hanz.attributes
+
+      it 'removes the contact from the collection', ->
+        expect(@contacts.get @hanz.id).to.be.undefined
