@@ -12,14 +12,15 @@
     "test": "brunch test"
   },
   "dependencies": {
-    "coffee-script-brunch": "^1.8.0",
-    "jade-brunch": "^1.8.1",
-    "uglify-js-brunch": "^1.7.7",
     "clean-css-brunch": "^1.7.1",
+    "coffee-script-brunch": "^1.8.0",
+    "css-brunch": "^1.7.0",
     "digest-brunch": "^1.0.6",
-    "less-brunch": "^1.7.2",
+    "jade-brunch": "^1.8.1",
     "javascript-brunch": "^1.7.1",
-    "css-brunch": "^1.7.0"
+    "jsenv-brunch": "^1.4.2",
+    "less-brunch": "^1.7.2",
+    "uglify-js-brunch": "^1.7.7"
   },
   "devDependencies": {
     "chai": "^1.9.1",

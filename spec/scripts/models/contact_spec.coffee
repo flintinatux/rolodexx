@@ -64,15 +64,3 @@ describe 'Contact', ->
 
       it 'sets this contact as inactive', ->
         expect(@contact.get 'active').to.be.false
-
-  describe '/contacts/:id events', ->
-    beforeEach ->
-      @channel = @contact.channel
-
-    describe 'updated', ->
-      beforeEach ->
-        @newName = 'Scotty'
-        @channel.trigger 'updated', _.extend(_.clone(@contact.attributes), name: @newName)
-
-      it 'updates the model', ->
-        expect(@contact.get 'name').to.equal @newName

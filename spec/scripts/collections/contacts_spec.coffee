@@ -18,17 +18,17 @@ describe 'Contacts', ->
 
   describe '#choose', ->
     beforeEach ->
-      sinon.spy @contacts, 'invoke'
+      sandbox.spy @contacts, 'invoke'
       @contacts.choose @hanz
 
     it 'invokes down to the models', ->
       expect(@contacts.invoke).to.have.been.calledWith 'choose', @hanz
 
-  describe '/contacts events', ->
+  describe 'contact events', ->
     beforeEach ->
-      @channel = @contacts.channel
+      @channel = Backbone.Radio.channel 'contact'
 
-    describe 'created', ->
+    describe 'contact:created', ->
       beforeEach ->
         @newContact = id: 3, name: 'Scott'
         @channel.trigger 'created', @newContact
@@ -37,7 +37,15 @@ describe 'Contacts', ->
         contact = @contacts.get @newContact.id
         expect(contact.get 'name').to.equal @newContact.name
 
-    describe 'destroyed', ->
+    describe 'contact:updated', ->
+      beforeEach ->
+        @newName = 'Scotty'
+        @channel.trigger 'updated', _.extend(_.clone(@hanz.attributes), name: @newName)
+
+      it 'updates the model', ->
+        expect(@contacts.get(@hanz.id).get 'name').to.equal @newName
+
+    describe 'contact:destroyed', ->
       beforeEach ->
         @channel.trigger 'destroyed', @hanz.attributes
 

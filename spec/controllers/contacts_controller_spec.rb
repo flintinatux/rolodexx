@@ -46,7 +46,7 @@ describe ContactsController do
         end
 
         it "triggers an updated event on Pusher" do
-          expect($pusher).to receive(:trigger).with "#{contact_path(contact)}:updated", instance_of(Hash)
+          expect($pusher).to receive(:trigger).with 'contact:updated', instance_of(Hash)
           update
         end
       end
@@ -81,7 +81,7 @@ describe ContactsController do
       end
 
       it "triggers a destroyed event on Pusher" do
-        expect($pusher).to receive(:trigger).with "#{contacts_path}:destroyed", instance_of(Hash)
+        expect($pusher).to receive(:trigger).with 'contact:destroyed', instance_of(Hash)
         destroy
       end
     end
@@ -103,7 +103,7 @@ describe ContactsController do
       end
 
       it "triggers a created event on Pusher" do
-        expect($pusher).to receive(:trigger).with "#{contacts_path}:created", instance_of(Hash)
+        expect($pusher).to receive(:trigger).with "contact:created", instance_of(Hash)
         create
       end
     end
