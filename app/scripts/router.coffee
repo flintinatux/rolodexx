@@ -35,11 +35,11 @@ class Router extends SwappingRouter
     @_show contacts.get(id)
 
   _edit: (contact) ->
-    contact.choose()
+    contacts.choose contact
     @swap new EditView model: contact, params: @params
 
   _show: (contact) ->
-    contact.choose()
+    contacts.choose contact
     @swap new ContactView model: contact, params: @params
 
 module.exports = new Router()

@@ -53,7 +53,7 @@ class ContactsController < ApplicationController
     end
 
     def publish(event)
-      $pusher.trigger event, as_json(contact)
+      $pusher.trigger event, as_json(contact), request.headers['X-Pusher-Socket-Id']
     end
 
     def valid_status(status=:ok)

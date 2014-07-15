@@ -1,8 +1,11 @@
 require 'spec_helper'
 
 describe ContactsController do
-  let(:contact_params) { attributes_for :contact }
   let(:address_params) { attributes_for :address }
+  let(:contact_params) { attributes_for :contact }
+  let(:pusher_socket_id) { 'pusher_socket_id' }
+
+  before { request.headers['X-Pusher-Socket-Id'] = pusher_socket_id }
 
   context 'with multipled existing contacts' do
     let!(:contacts) { 3.times.map { create :contact } }
@@ -46,7 +49,7 @@ describe ContactsController do
         end
 
         it "triggers an updated event on Pusher" do
-          expect($pusher).to receive(:trigger).with 'contact:updated', instance_of(Hash)
+          expect($pusher).to receive(:trigger).with 'contact:updated', instance_of(Hash), pusher_socket_id
           update
         end
       end
@@ -81,7 +84,7 @@ describe ContactsController do
       end
 
       it "triggers a destroyed event on Pusher" do
-        expect($pusher).to receive(:trigger).with 'contact:destroyed', instance_of(Hash)
+        expect($pusher).to receive(:trigger).with 'contact:destroyed', instance_of(Hash), pusher_socket_id
         destroy
       end
     end
@@ -103,7 +106,7 @@ describe ContactsController do
       end
 
       it "triggers a created event on Pusher" do
-        expect($pusher).to receive(:trigger).with "contact:created", instance_of(Hash)
+        expect($pusher).to receive(:trigger).with "contact:created", instance_of(Hash), pusher_socket_id
         create
       end
     end
