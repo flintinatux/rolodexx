@@ -8,6 +8,7 @@ gem 'rails', '4.0.3'
 gem 'foreman'
 gem 'pg'
 gem 'puma'
+gem 'pusher'
 
 # Frontend - all done with Brunch.io
 

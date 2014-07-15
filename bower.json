@@ -18,6 +18,7 @@
     "font-awesome": "~4",
     "jquery": "~2",
     "moment": "~2",
+    "pusher": "~2",
     "underscore": "~1",
     "uri.js": "~1"
   },

@@ -10,16 +10,19 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.create contact_params
+    publish 'contact:created' if contact.valid?
     render json: as_json(contact), status: valid_status(:created)
   end
 
   def update
     contact.update contact_params
+    publish 'contact:updated' if contact.valid?
     render json: as_json(contact), status: valid_status
   end
 
   def destroy
     contact.destroy
+    publish 'contact:destroyed'
     render json: as_json(contact)
   end
 
@@ -47,6 +50,10 @@ class ContactsController < ApplicationController
 
     def contact_params
       params[:contact].permit :id, :name, :sex, :birthday, :phone, :email, address_attributes: [:id, :street, :city, :state, :postcode]
+    end
+
+    def publish(event)
+      $pusher.trigger event, as_json(contact), request.headers['X-Pusher-Socket-Id']
     end
 
     def valid_status(status=:ok)
