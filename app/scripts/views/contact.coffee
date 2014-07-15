@@ -37,6 +37,10 @@ class ContactView extends CompositeView
       show: 500
       hide: 100
 
+  initialize: (options) ->
+    super options
+    @listenTo @model, 'remove', @_goHome
+
   render: ->
     @$el.html @template()
     @stickit()
@@ -49,5 +53,8 @@ class ContactView extends CompositeView
 
   _enableTooltips: ->
     @$('[data-toggle=tooltip]').tooltip @tooltipOptions
+
+  _goHome: ->
+    require('router').navigate "#/contacts", trigger: true
 
 module.exports = ContactView

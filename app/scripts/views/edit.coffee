@@ -4,13 +4,6 @@ class EditView extends CompositeView
   template: require 'templates/edit'
   id: 'contact'
 
-  initialize: (options) ->
-    super options
-    @collection = require 'collections/contacts'
-    @router = require 'router'
-    @model.set(address: {}) unless @model.get('address')
-    @listenTo @model, 'change', @_markDirty
-
   addressBindings:
     '#street': 'street'
     '#city':   'city'
@@ -49,6 +42,13 @@ class EditView extends CompositeView
     'click #delete': '_delete'
     'submit form':   '_saveAndShow'
 
+  initialize: (options) ->
+    super options
+    @collection = require 'collections/contacts'
+    @model.set(address: {}) unless @model.get('address')
+    @listenTo @model, 'change', @_markDirty
+    @listenTo @model, 'remove', @_removed
+
   remove: ->
     if @dirty
       if window.confirm 'You have unsaved changes. Do you want to save before continuing?'
@@ -75,10 +75,14 @@ class EditView extends CompositeView
       @model.destroy success: => @_goHome()
 
   _goHome: ->
-    @router.navigate "#/contacts", trigger: true
+    require('router').navigate "#/contacts", trigger: true
 
   _markDirty: (model, options) ->
     @dirty = true unless model.hasChanged('active')
+
+  _removed: ->
+    @dirty = false
+    @_goHome()
 
   _saveAndShow: (event) ->
     event.preventDefault()
@@ -93,6 +97,6 @@ class EditView extends CompositeView
       options.success?.apply this
 
   _show: ->
-    @router.navigate "##{@model.url()}", trigger: true
+    require('router').navigate "##{@model.url()}", trigger: true
 
 module.exports = EditView
